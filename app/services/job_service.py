@@ -103,7 +103,7 @@ def evaluate_job_candidates(job_id):
     
     # Calculate average score
     total_score = sum(candidate['score'] for candidate in candidate_scores)
-    average_score = total_score / len(candidate_scores)
+    average_score = round(total_score / len(candidate_scores), 2) if candidate_scores else 0
 
     # Calculate eligible count
     eligible_candidates = sum(1 for candidate in candidate_scores if candidate['eligibility'] == 'Eligible')
