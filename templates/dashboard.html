@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #004080;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            text-align: center;
+        }
+        main .dashboard-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        main .dashboard-link {
+            display: inline-block;
+            background-color: #004080;
+            color: #fff;
+            text-decoration: none;
+            padding: 15px 20px;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        main .dashboard-link:hover {
+            background-color: #0066cc;
+            transform: translateY(-3px);
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #004080;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            main {
+                padding: 15px;
+            }
+        }
+        @media (max-width: 480px) {
+            main .dashboard-link {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Dashboard</h1>
+    </header>
+    <main>
+        <div class="dashboard-links">
+            <a href="/jobs" class="dashboard-link">View Jobs</a>
+            <a href="/addjob" class="dashboard-link">Add a New Job</a>
+            <a href="/rh/jobs" class="dashboard-link">Evaluate</a>
+            <!-- <a href="/jobmanagement" class="dashboard-link">Job Management</a> -->
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 Our Company | All Rights Reserved</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Form</title>
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        header {
+            background-color: #004080;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+            background: url('https://burst.shopifycdn.com/photos/macbook-air-on-desk.jpg?width=1000&format=pjpg&exif=0&iptc=0') no-repeat center center / cover;
+            position: relative;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Dark overlay for better contrast */
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            max-width: 800px;
+            /* Reduced width */
+            margin: 10px;
+            /* Center the content and add vertical spacing */
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-container {
+            flex: 1;
+            max-width: 400px;
+        }
+
+        form div {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #004080;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0066cc;
+        }
+
+        .job-details {
+            flex: 1;
+            color: #004080;
+        }
+
+        .job-details h2 {
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+
+        .job-details p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        footer {
+            background-color: #004080;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Join our team</h1>
+        <p>Submit your application to join our team.</p>
+    </header>
+    <main>
+        <div class="overlay"></div>
+        <div class="content">
+            <div class="form-container">
+                <form id="application-form" method="POST" action="/apply" enctype="multipart/form-data"
+                    data-job_id="{{ job_id }}">
+                    <div>
+                        <label for="name">Nom Complet:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div>
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div>
+                        <label for="experienceyears">Experience in years:</label>
+                        <input type="number" id="experienceyears" name="experienceyears" required>
+                    </div>
+                    <div>
+                        <label for="resume">Upload Resume:</label>
+                        <input type="file" id="resume" name="resume" required>
+                    </div>
+                    <div>
+                        <label for="cover_letter">Tell us about you! Cover letter:</label>
+                        <input type="file" id="cover_letter" name="cover_letter">
+                    </div>
+                    <button type="submit">Submit application</button>
+                </form>
+            </div>
+            <div class="job-details">
+                <h2>{{ title }}</h2>
+                <div class="job-section">
+                    <strong>Description:</strong>
+                    <p>{{ description|truncate(500, True) }}</p>
+                </div>
+                <div class="job-section">
+                    <strong>Skills:</strong>
+                    <p>{{ skills|truncate(500, True) }}</p>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 Our Company | All Rights Reserved</p>
+    </footer>
+    <script>
+        document.getElementById('application-form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const formData = new FormData();
+            formData.append('name', document.getElementById('name').value);
+            formData.append('email', document.getElementById('email').value);
+            formData.append('resume', document.getElementById('resume').files[0]);
+            formData.append('cover_letter', document.getElementById('cover_letter').files[0]);
+            formData.append('experience', document.getElementById('experienceyears').value);
+
+            const job_id = document.getElementById('application-form').dataset.job_id;
+            formData.append('job_id', job_id);
+
+            try {
+                const response = await fetch('/apply', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert('Candidature soumise avec succès !');
+                } else {
+                    alert('Erreur lors de la soumission de la candidature : ' + result.error);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Une erreur est survenue lors de la soumission de la candidature.');
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post Job</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f7fc;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #004080;
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    form div {
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-size: 1rem;
+      color: #333;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input, textarea {
+      font-size: 1rem;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      font-size: 1.1rem;
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    button:active {
+      background-color: #003d80;
+    }
+
+    .alert {
+      padding: 15px;
+      background-color: #f44336;
+      color: white;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      display: none;
+    }
+
+    .alert.success {
+      background-color: #4CAF50;
+    }
+
+    .alert.error {
+      background-color: #f44336;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+        margin: 20px;
+      }
+
+      header h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+
+  <script>
+    async function postJob() {
+      const title = document.getElementById('title').value;
+      const description = document.getElementById('description').value;
+      const skills = document.getElementById('skills').value;
+
+      if (!title || !description || skills.length === 0) {
+        alert('Veuillez remplir tous les champs.');
+        return;
+      }
+
+      const response = await fetch('http://127.0.0.1:5000/add-job', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ title, description, skills })
+      });
+
+      const result = await response.json();
+
+      const alertBox = document.getElementById('alert');
+      if (response.ok) {
+        alertBox.textContent = 'Poste publié avec succès !';
+        alertBox.classList.add('success');
+        alertBox.classList.remove('error');
+        alertBox.style.display = 'block';
+        document.getElementById('job-form').reset();
+      } else {
+        alertBox.textContent = result.error || 'Erreur lors de la publication du poste.';
+        alertBox.classList.add('error');
+        alertBox.classList.remove('success');
+        alertBox.style.display = 'block';
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <header>
+    <h1>Publier un Poste</h1>
+  </header>
+
+  <div class="container">
+    <div id="alert" class="alert"></div>
+
+    <form id="job-form" onsubmit="event.preventDefault(); postJob();">
+      <div>
+        <label for="title">Titre du Poste :</label>
+        <input type="text" id="title" required>
+      </div>
+      <div>
+        <label for="description">Description :</label>
+        <textarea id="description" rows="5" required></textarea>
+      </div>
+      <div>
+        <label for="skills">Compétences (séparées par des virgules) :</label>
+        <input type="text" id="skills" required placeholder="Ex: Java, HTML, SQL">
+      </div>
+      <button type="submit">Publier</button>
+    </form>
+  </div>
+</body>
+
+</html>

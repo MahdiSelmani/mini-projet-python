@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Careers at Our Company</title>
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            background-image: url('https://images.pexels.com/photos/7102/notes-macbook-study-conference.jpg'); /* Replace with your image URL */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        header {
+            background-color: rgba(0, 64, 128); /* Semi-transparent background */
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            min-height: calc(100vh - 120px); /* Ensures content takes up space */
+            padding-bottom: 50px; /* Prevents overlap with footer */
+        }
+
+        .job-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .job-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            width: 300px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            opacity: 0.8;
+        }
+
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .job-card h3 {
+            margin: 0 0 10px;
+            color: #004080;
+        }
+
+        .job-card p {
+            margin: 0 0 15px;
+            color: #555;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        .job-card .actions {
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .job-card .actions a {
+            padding: 10px;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .job-card .actions a.apply {
+            background-color: #004080;
+        }
+
+        .job-card .actions a.apply:hover {
+            background-color: #0066cc;
+        }
+
+        .job-card .actions a.evaluate {
+            background-color: #ffa500;
+        }
+
+        .job-card .actions a.evaluate:hover {
+            background-color: #ff7f00;
+        }
+
+        footer {
+            background-color: #004080;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: relative;
+            width: 100%;
+            margin-top: 20px; /* Ensures footer is below content */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .job-card {
+                width: 45%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .job-card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Evaluations - Job list</h1>
+        <p>Explore career opportunities at our company and make an impact.</p>
+    </header>
+    <main>
+        <h2>Available Jobs</h2>
+        {% if jobs %}
+        <div class="job-list">
+            {% for job in jobs %}
+            <div class="job-card">
+                <h3>{{ job.title }}</h3>
+                <p>{{ job.description|truncate(150, True) }}</p>
+                <div class="actions">
+                    <a href="/evaluate/{{ job.id }}" class="evaluate">Show Evaluations</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p>No jobs are currently available. Please check back later.</p>
+        {% endif %}
+    </main>
+    <footer>
+        <p>&copy; 2024 Our Company | All Rights Reserved</p>
+    </footer>
+</body>
+
+</html>
