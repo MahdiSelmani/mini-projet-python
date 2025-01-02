@@ -82,7 +82,7 @@ def evaluate_job_candidates(job_id):
         eligibility_prediction = model_classification.predict(scaled_data)
 
         # Map eligibility prediction to string
-        eligibility = 'Eligible' if eligibility_prediction == 1 else 'Not Eligible'
+        eligibility = 'Eligible' if eligibility_prediction == 1 else ('Why Not' if eligibility_prediction == 2 else 'Not Eligible')
 
         # Make the salary prediction using the regression model
         salary_prediction = model_regression.predict(scaled_data)

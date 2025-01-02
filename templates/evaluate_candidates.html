@@ -86,6 +86,10 @@
             background-color: #dc3545;
             color: white;
         }
+        .why-not {
+            background-color: #ffe206;
+            color: white;
+        }
 
         .info-card {
             display: flex;
@@ -194,7 +198,7 @@
                     <td>{{ candidate.score }}%</td>
                     <td>{{ candidate.predicted_salary if candidate.eligibility == 'Eligible' else 'N/A' }}</td>
                     <td>
-                        <span class="badge {{ 'eligible' if candidate.eligibility == 'Eligible' else 'not-eligible' }}">
+                        <span class="badge {{ 'eligible' if candidate.eligibility == 'Eligible' else 'not-eligible' if candidate.eligibility == 'Not Eligible' else 'why-not' }}">
                             {{ candidate.eligibility }}
                         </span>
                     </td>
